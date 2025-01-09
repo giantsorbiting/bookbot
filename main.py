@@ -2,11 +2,22 @@ def main():
     with open("books/frankenstein.txt") as f:
         file_contents = f.read()
     total_words = count_words(file_contents)
-    longest_word = find_longest(file_contents)
     character_count = count_characters(file_contents)
-    print(f"Total words: {total_words}")
-    print(f"Character count: {character_count}")
-    print(f"Longest word: '{longest_word}' with {len(longest_word)} characters")
+    
+    chars_list = []
+    for char, count in character_count.items():
+        chars_list.append({"char": char, "count": count})
+    
+    chars_list.sort(reverse=True, key=sort_on)
+    
+    print("--- Begin report of books/frankenstein.txt ---")
+    print(f"{total_words} words found in the document")
+    print()
+
+    for char_dict in chars_list:
+        print(f"The '{char_dict['char']}' character was found {char_dict['count']} times")
+    
+    print("--- End report ---")
 
 def count_words(file_contents):
     words = file_contents.split()
@@ -16,20 +27,15 @@ def count_characters(file_contents):
     my_dict = {}
     lower_contents = file_contents.lower()
     for character in lower_contents:
-        if character in my_dict:
-            my_dict[character] += 1
-        else:
-            my_dict[character] = 1
+        if character.isalpha():
+            if character in my_dict:
+                my_dict[character] += 1
+            else:
+                my_dict[character] = 1
     return my_dict
 
-def find_longest(file_contents):
-    longest_word = ""
-    current_longest = 0
-    words = file_contents.split()
-    for word in words:
-        if len(word) > current_longest:
-            current_longest = len(word)
-            longest_word = word
-    return longest_word
+def sort_on(chars_list):
+    return chars_list["count"]
+
 if __name__ == "__main__":
     main()
