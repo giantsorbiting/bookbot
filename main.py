@@ -1,5 +1,6 @@
 def main():
-    with open("books/frankenstein.txt") as f:
+    book_name = input("What book would you like to analyze?")
+    with open("books/" + book_name + ".txt") as f:
         file_contents = f.read()
     total_words = count_words(file_contents)
     character_count = count_characters(file_contents)
@@ -10,7 +11,7 @@ def main():
     
     chars_list.sort(reverse=True, key=sort_on)
     
-    print("--- Begin report of books/frankenstein.txt ---")
+    print("--- Begin report of books/" + book_name + ".txt ---")
     print(f"{total_words} words found in the document")
     print()
 
